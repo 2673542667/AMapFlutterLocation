@@ -116,7 +116,11 @@ public class AMapLocationClientImpl implements AMapLocationListener {
             locationOption.setOnceLocation((boolean) optionMap.get("onceLocation"));
         }
 
+        // true表示使用定位缓存策略；false表示不使用。
         locationOption.setLocationCacheEnable(false);
+
+        // true表示会主动刷新设备wifi模块，获取到最新鲜的wifi列表（wifi新鲜程度决定定位精度）；false表示不主动刷新。
+        locationOption.setWifiActiveScan(true);
 
         if (null != locationClient) {
             locationClient.setLocationOption(locationOption);
