@@ -9,12 +9,12 @@ class AMapFlutterLocation {
   static const String _CHANNEL_STREAM_LOCATION = "amap_flutter_location_stream";
 
   static const MethodChannel _methodChannel =
-      MethodChannel(_CHANNEL_METHOD_LOCATION);
+      const MethodChannel(_CHANNEL_METHOD_LOCATION);
 
   static const EventChannel _eventChannel =
-      EventChannel(_CHANNEL_STREAM_LOCATION);
+      const EventChannel(_CHANNEL_STREAM_LOCATION);
 
-  static final Stream<Map<String, Object>> _onLocationChanged = _eventChannel
+  static Stream<Map<String, Object>> _onLocationChanged = _eventChannel
       .receiveBroadcastStream()
       .asBroadcastStream()
       .map<Map<String, Object>>((element) => element.cast<String, Object>());
@@ -61,9 +61,9 @@ class AMapFlutterLocation {
   ///iOS端: https://lbs.amap.com/api/ios-location-sdk/guide/create-project/get-key<br>
   ///[androidKey] Android平台的key<br>
   ///[iosKey] ios平台的key<br>
-  static void setApiKey(String iosKey) {
+  static void setApiKey(String androidKey, String iosKey) {
     _methodChannel
-        .invokeMethod('setApiKey', {'ios': iosKey});
+        .invokeMethod('setApiKey', {'android': androidKey, 'ios': iosKey});
   }
 
   /// 设置定位参数

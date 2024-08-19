@@ -6,12 +6,10 @@ import 'package:amap_flutter_location/amap_location_option.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -26,6 +24,26 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    /// 设置是否已经包含高德隐私政策并弹窗展示显示用户查看，如果未包含或者没有弹窗展示，高德定位SDK将不会工作
+    ///
+    /// 高德SDK合规使用方案请参考官网地址：https://lbs.amap.com/news/sdkhgsy
+    /// <b>必须保证在调用定位功能之前调用， 建议首次启动App时弹出《隐私政策》并取得用户同意</b>
+    ///
+    /// 高德SDK合规使用方案请参考官网地址：https://lbs.amap.com/news/sdkhgsy
+    ///
+    /// [hasContains] 隐私声明中是否包含高德隐私政策说明
+    ///
+    /// [hasShow] 隐私权政策是否弹窗展示告知用户
+    AMapFlutterLocation.updatePrivacyShow(true, true);
+
+    /// 设置是否已经取得用户同意，如果未取得用户同意，高德定位SDK将不会工作
+    ///
+    /// 高德SDK合规使用方案请参考官网地址：https://lbs.amap.com/news/sdkhgsy
+    ///
+    /// <b>必须保证在调用定位功能之前调用, 建议首次启动App时弹出《隐私政策》并取得用户同意</b>
+    ///
+    /// [hasAgree] 隐私权政策是否已经取得用户同意
+    AMapFlutterLocation.updatePrivacyAgree(true);
 
     /// 动态申请定位权限
     requestPermission();
@@ -129,20 +147,20 @@ class _MyAppState extends State<MyApp> {
           children: <Widget>[
             ElevatedButton(
               onPressed: _startLocation,
+              child: Text('开始定位'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.blue),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
-              child: const Text('开始定位'),
             ),
             Container(width: 20.0),
             ElevatedButton(
               onPressed: _stopLocation,
+              child: Text('停止定位'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.blue),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
-              child: const Text('停止定位'),
             )
           ],
         ));
@@ -178,7 +196,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            title: const Text('AMap Location plugin example app'),
+            title: Text('AMap Location plugin example app'),
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
