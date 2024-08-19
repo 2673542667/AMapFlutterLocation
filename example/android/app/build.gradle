@@ -6,7 +6,11 @@ plugins {
 }
 
 android {
+<<<<<<< HEAD
     namespace = "com.amap.flutter.location.amap_flutter_location_example"
+=======
+    namespace = "com.amap.flutter.amap_flutter_location_example"
+>>>>>>> 28f8b0b42c46d4e1738bddbf615ee4bfbf78172d
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +25,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+<<<<<<< HEAD
         applicationId = "com.amap.flutter.location.amap_flutter_location_example"
+=======
+        applicationId = "com.amap.flutter.amap_flutter_location_example"
+>>>>>>> 28f8b0b42c46d4e1738bddbf615ee4bfbf78172d
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
