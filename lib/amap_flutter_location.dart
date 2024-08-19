@@ -9,12 +9,12 @@ class AMapFlutterLocation {
   static const String _CHANNEL_STREAM_LOCATION = "amap_flutter_location_stream";
 
   static const MethodChannel _methodChannel =
-      const MethodChannel(_CHANNEL_METHOD_LOCATION);
+      MethodChannel(_CHANNEL_METHOD_LOCATION);
 
   static const EventChannel _eventChannel =
-      const EventChannel(_CHANNEL_STREAM_LOCATION);
+      EventChannel(_CHANNEL_STREAM_LOCATION);
 
-  static Stream<Map<String, Object>> _onLocationChanged = _eventChannel
+  static final Stream<Map<String, Object>> _onLocationChanged = _eventChannel
       .receiveBroadcastStream()
       .asBroadcastStream()
       .map<Map<String, Object>>((element) => element.cast<String, Object>());
@@ -141,5 +141,25 @@ class AMapFlutterLocation {
       });
     }
     return _receiveStream!.stream;
+  }
+
+  /// 设置是否已经包含高德隐私政策并弹窗展示显示用户查看，如果未包含或者没有弹窗展示，高德定位SDK将不会工作<br>
+  /// 高德SDK合规使用方案请参考官网地址：https://lbs.amap.com/news/sdkhgsy<br>
+  /// <b>必须保证在调用定位功能之前调用， 建议首次启动App时弹出《隐私政策》并取得用户同意</b><br>
+  /// 高德SDK合规使用方案请参考官网地址：https://lbs.amap.com/news/sdkhgsy
+  /// [hasContains] 隐私声明中是否包含高德隐私政策说明<br>
+  /// [hasShow] 隐私权政策是否弹窗展示告知用户<br>
+  static void updatePrivacyShow(bool hasContains, bool hasShow) {
+    _methodChannel
+        .invokeMethod('updatePrivacyStatement', {'hasContains': hasContains, 'hasShow': hasShow});
+  }
+
+  /// 设置是否已经取得用户同意，如果未取得用户同意，高德定位SDK将不会工作<br>
+  /// 高德SDK合规使用方案请参考官网地址：https://lbs.amap.com/news/sdkhgsy<br>
+  /// <b>必须保证在调用定位功能之前调用, 建议首次启动App时弹出《隐私政策》并取得用户同意</b><br>
+  /// [hasAgree] 隐私权政策是否已经取得用户同意<br>
+  static void updatePrivacyAgree(bool hasAgree) {
+    _methodChannel
+        .invokeMethod('updatePrivacyStatement', {'hasAgree': hasAgree});
   }
 }

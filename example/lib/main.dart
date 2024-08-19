@@ -6,12 +6,14 @@ import 'package:amap_flutter_location/amap_location_option.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() {
-  runApp(new MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
-  _MyAppState createState() => new _MyAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -19,7 +21,7 @@ class _MyAppState extends State<MyApp> {
 
   StreamSubscription<Map<String, Object>>? _locationListener;
 
-  AMapFlutterLocation _locationPlugin = new AMapFlutterLocation();
+  final AMapFlutterLocation _locationPlugin = AMapFlutterLocation();
 
   @override
   void initState() {
@@ -62,7 +64,7 @@ class _MyAppState extends State<MyApp> {
 
   ///设置定位参数
   void _setLocationOption() {
-    AMapLocationOption locationOption = new AMapLocationOption();
+    AMapLocationOption locationOption = AMapLocationOption();
 
     ///是否单次定位
     locationOption.onceLocation = false;
@@ -119,48 +121,46 @@ class _MyAppState extends State<MyApp> {
   }
 
   Container _createButtonContainer() {
-    return new Container(
+    return Container(
         alignment: Alignment.center,
-        child: new Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            new ElevatedButton(
+            ElevatedButton(
               onPressed: _startLocation,
-              child: new Text('开始定位'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.blue),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
+              child: const Text('开始定位'),
             ),
-            new Container(width: 20.0),
-            new ElevatedButton(
+            Container(width: 20.0),
+            ElevatedButton(
               onPressed: _stopLocation,
-              child: new Text('停止定位'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.blue),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
+              child: const Text('停止定位'),
             )
           ],
         ));
   }
 
   Widget _resultWidget(key, value) {
-    return new Container(
-      child: new Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          new Container(
-            alignment: Alignment.centerRight,
-            width: 100.0,
-            child: new Text('$key :'),
-          ),
-          new Container(width: 5.0),
-          new Flexible(child: new Text('$value', softWrap: true)),
-        ],
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          alignment: Alignment.centerRight,
+          width: 100.0,
+          child: Text('$key :'),
+        ),
+        Container(width: 5.0),
+        Flexible(child: Text('$value', softWrap: true)),
+      ],
     );
   }
 
@@ -175,17 +175,17 @@ class _MyAppState extends State<MyApp> {
       });
     }
 
-    return new MaterialApp(
-        home: new Scaffold(
-      appBar: new AppBar(
-        title: new Text('AMap Location plugin example app'),
-      ),
-      body: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: widgets,
-      ),
-    ));
+    return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('AMap Location plugin example app'),
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: widgets,
+          ),
+        ));
   }
 
   ///获取iOS native的accuracyAuthorization类型

@@ -15,7 +15,8 @@
 @implementation AMapFlutterLocationManager
 
 - (instancetype)init {
-    if ([super init] == self) {
+    self = [super init];
+    if (self) {
         _onceLocation = false;
         _fullAccuracyPurposeKey = nil;
     }
@@ -73,8 +74,26 @@
         }
     }else if ([@"getSystemAccuracyAuthorization" isEqualToString:call.method]) {
         [self getSystemAccuracyAuthorization:call result:result];
-    }else {
+    } else if ([@"updatePrivacyStatement" isEqualToString:call.method]) {
+        [self updatePrivacyStatement:call.arguments];
+    } else {
         result(FlutterMethodNotImplemented);
+    }
+}
+
+- (void)updatePrivacyStatement:(NSDictionary *)arguments {
+    if ((AMapLocationVersionNumber) < 20800) {
+        NSLog(@"当前定位SDK版本没有隐私合规接口，请升级定位SDK到2.8.0及以上版本");
+        return;
+    }
+    if (arguments == nil) {
+        return;
+    }
+    if (arguments[@"hasContains"] != nil && arguments[@"hasShow"] != nil) {
+        [AMapLocationManager updatePrivacyShow:[arguments[@"hasShow"] integerValue] privacyInfo:[arguments[@"hasContains"] integerValue]];
+    }
+    if (arguments[@"hasAgree"] != nil) {
+        [AMapLocationManager updatePrivacyAgree:[arguments[@"hasAgree"] integerValue]];
     }
 }
 
@@ -306,6 +325,9 @@
     
     if (!manager) {
         manager = [[AMapFlutterLocationManager alloc] init];
+        if (manager == nil && (AMapLocationVersionNumber) >= 20800) {
+            NSAssert(manager,@"AMapLocationManager初始化失败，定位SDK2.8.0及以上，请务必确保调用SDK任何接口前先调用更新隐私合规updatePrivacyShow:privacyInfo、updatePrivacyAgree两个接口");
+        }
         manager.pluginKey = pluginKey;
         manager.locatingWithReGeocode = YES;
         manager.delegate = self;
