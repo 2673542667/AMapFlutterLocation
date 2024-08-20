@@ -17,7 +17,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
 /** 高德地图定位sdkFlutterPlugin */
-public class AMapFlutterLocationPlugin implements FlutterPlugin, MethodCallHandler,
+public class AmapFlutterLocationPlugin implements FlutterPlugin, MethodCallHandler,
         EventChannel.StreamHandler {
   private static final String CHANNEL_METHOD_LOCATION = "amap_flutter_location";
   private static final String CHANNEL_STREAM_LOCATION = "amap_flutter_location_stream";
